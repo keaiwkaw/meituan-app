@@ -54,10 +54,10 @@
 </template>
 
 <script>
-import Silder from "./slider";
+import Slider from "./slider";
 export default {
   components: {
-    Silder,
+    Slider,
   },
 };
 </script>

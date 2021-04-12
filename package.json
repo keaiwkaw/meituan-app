@@ -4,15 +4,24 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "nuxt",
+    "dev": "NODE_ENV=development nodemon server/index.js --exec babel-node",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "core-js": "^3.9.1",
+    "crypto-js": "^4.0.0",
     "element-ui": "^2.15.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-generic-session": "^2.1.1",
+    "koa-json": "^2.0.2",
+    "koa-redis": "^4.0.1",
+    "mongoose": "^5.12.3",
+    "nodemon": "^2.0.7",
     "nuxt": "^2.15.3"
   },
   "devDependencies": {}

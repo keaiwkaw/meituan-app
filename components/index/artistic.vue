@@ -57,6 +57,9 @@ export default {
       return this.list[this.kind];
     },
   },
+  methods: {
+    over() {},
+  },
 };
 </script>
 

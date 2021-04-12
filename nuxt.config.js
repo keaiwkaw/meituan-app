@@ -1,4 +1,5 @@
-export default {
+module.exports = {
+  dev: process.env.NODE_ENV !== "production",
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "meituan-app",
@@ -36,12 +37,8 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    proxy: true
-  },
-  proxy: {
-    "/api": "http://localhost:8080"
-  },
+  axios: {},
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: [/^element-ui/]
