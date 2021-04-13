@@ -21,18 +21,14 @@
           </button>
           <dl class="hotPlace" v-if="isHotPlace">
             <dt>热门搜索</dt>
-            <dd v-for="(item, idx) in hotPlace" :key="idx">{{ item }}</dd>
+            <dd v-for="(item, idx) in $store.state.home.hotPlace" :key="idx">{{ item.name }}</dd>
           </dl>
           <dl class="searchList" v-if="isSearchList">
-            <dd v-for="(item, idx) in searchList" :key="idx">{{ item }}</dd>
+            <dd v-for="(item, idx) in searchList" :key="idx">{{ item.name }}</dd>
           </dl>
         </div>
         <p class="suggest">
-          <a href="">博物院</a>
-          <a href="">博物院</a>
-          <a href="">博物院</a>
-          <a href="">博物院</a>
-          <a href="">博物院</a>
+          <a href="" v-for="(item, idx) in $store.state.home.hotPlace" :key="idx">{{item.name }}</a>
         </p>
         <ul class="nav">
           <li>
@@ -73,6 +69,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   data() {
     return {
@@ -92,9 +89,19 @@ export default {
         self.isFocus = false;
       });
     },
-    input(){
-      
-    }
+    input:_.debounce(async()=>{
+      let self = this;
+      let city = self.$store.state.geo.position.city.replace('市','')
+      self.searchList = []
+      let {status,data:{top}} = await self.$axios('/search/top',{
+        params:{
+          input:self.search,
+          city
+        }
+      })
+      self.searchList = top
+      console.log(top);
+    },300)
   },
   computed: {
     isHotPlace() {
@@ -104,6 +111,7 @@ export default {
       return this.isFocus && this.search;
     },
   },
+ 
 };
 </script>
 

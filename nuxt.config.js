@@ -1,5 +1,6 @@
 module.exports = {
   dev: process.env.NODE_ENV !== "production",
+  telemetry: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "meituan-app",

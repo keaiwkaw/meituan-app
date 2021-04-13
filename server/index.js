@@ -9,6 +9,9 @@ import json from "koa-json";
 import dbConfig from "./dbs/config";
 import passport from "./interface/utils/passport";
 import users from "./interface/users";
+import geo from "./interface/geo";
+import search from "./interface/search";
+
 const app = new Koa();
 app.keys = ["meituan", "app"];
 app.proxy = true;
@@ -19,7 +22,7 @@ app.use(
   })
 );
 app.use(json());
-
+mongoose.set("useCreateIndex", true);
 mongoose.connect(dbConfig.dbs, {
   useNewUrlParser: true
 });
@@ -46,6 +49,8 @@ async function start() {
   }
 
   app.use(users.routes()).use(users.allowedMethods());
+  app.use(geo.routes()).use(geo.allowedMethods());
+  app.use(search.routes()).use(search.allowedMethods());
 
   // 监听所有路由
   app.use(ctx => {
