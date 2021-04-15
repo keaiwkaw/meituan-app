@@ -19,7 +19,7 @@
       </dd>
     </dl>
     <ul class="ibody">
-      <li v-for="item in cur" :key="item.title">
+      <li v-for="item in cur" :key="item._id">
         <el-card :body-style="{ padding: '0px' }" shadow="never">
           <img :src="item.img" class="image" />
           <ul class="cbody">
@@ -58,7 +58,74 @@ export default {
     },
   },
   methods: {
-    over() {},
+    async over(e) {
+      let dom = e.target;
+      let tag = dom.tagName.toLowerCase();
+      let self = this;
+      if (tag === "dd") {
+        this.kind = dom.getAttribute("kind");
+        let keyword = dom.getAttribute("keyword");
+        let {
+          status,
+          data: { res },
+        } = await self.$axios("/search/resultsByKeywords", {
+          params: {
+            keyword,
+            city: self.$store.state.geo.position.city,
+          },
+        });
+        if (status === 200) {
+          let r = res
+            .filter((item) => {
+              return item.photos.length;
+            })
+            .map((item) => {
+              return {
+                id: item._id,
+                title: item.name,
+                pos: item.type.split(";")[0],
+                price: item.biz_ext.cost || "暂无",
+                img: item.photos[0].url,
+                url: item.url,
+              };
+            });
+          self.list[self.kind] = r.slice(0.9);
+        } else {
+          self.list[self.kind] = [];
+        }
+      }
+    },
+  },
+  async mounted() {
+    let self = this;
+    let {
+      status,
+      data: { res },
+    } = await self.$axios("/search/resultsByKeywords", {
+      params: {
+        keyword: "景点",
+        city: self.$store.state.geo.position.city,
+      },
+    });
+    if (status === 200) {
+      let r = res
+        .filter((item) => {
+          return item.photos.length;
+        })
+        .map((item) => {
+          return {
+            id: item._id,
+            title: item.name,
+            pos: item.type.split(";")[0],
+            price: item.biz_ext.cost || "暂无",
+            img: item.photos[0].url,
+            url: item.url,
+          };
+        });
+      self.list[self.kind] = r.slice(0, 9);
+    } else {
+      self.list[self.kind] = [];
+    }
   },
 };
 </script>

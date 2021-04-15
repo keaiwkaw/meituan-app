@@ -1,10 +1,11 @@
 import Router from "koa-router";
 import axios from "./utils/axios";
 import Poi from "../dbs/models/pois";
+import Style from "../dbs/models/styles";
 let router = new Router({ prefix: "/search" });
 router.get("/top", async ctx => {
   let top = await Poi.find({
-    city: ctx.query.city,
+    city: new RegExp(ctx.query.city),
     name: new RegExp(ctx.query.input)
   });
   ctx.body = {
@@ -21,14 +22,22 @@ router.get("/hotPlace", async ctx => {
   let city = ctx.store ? ctx.store.geo.position.city : ctx.query.city;
   let top = await Poi.find({
     city
-  }).limit(10);
+  });
   ctx.body = {
     top: top.map(item => {
       return {
         name: item.name,
-        type:item.type
-      }
+        type: item.type
+      };
     })
+  };
+});
+
+router.get("/resultsByKeywords", async ctx => {
+  const { city, keyworld } = ctx.query;
+  let res = await Style.find();
+  ctx.body = {
+    res
   };
 });
 export default router;
