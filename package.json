@@ -16,6 +16,7 @@
     "core-js": "^3.9.1",
     "crypto-js": "^4.0.0",
     "element-ui": "^2.15.1",
+    "js-pinyin": "^0.1.9",
     "koa-bodyparser": "^4.3.0",
     "koa-generic-session": "^2.1.1",
     "koa-json": "^2.0.2",
