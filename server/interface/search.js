@@ -21,7 +21,7 @@ router.get("/top", async ctx => {
 router.get("/hotPlace", async ctx => {
   let city = ctx.store ? ctx.store.geo.position.city : ctx.query.city;
   let top = await Poi.find({
-    city
+    city: "三亚"
   });
   ctx.body = {
     top: top.map(item => {
@@ -34,10 +34,12 @@ router.get("/hotPlace", async ctx => {
 });
 
 router.get("/resultsByKeywords", async ctx => {
-  const { city, keyworld } = ctx.query;
-  let res = await Style.find();
+  let { city, keyword } = ctx.query;
+  keyword = "酒店";
+  let res = await Style.find({ name: new RegExp(keyword) });
   ctx.body = {
     res
   };
 });
+
 export default router;

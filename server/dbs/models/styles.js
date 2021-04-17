@@ -15,6 +15,18 @@ const StyleSchema = new Schema({
   },
   url: {
     type: String
+  },
+  location: {
+    type: String
+  },
+  tel: {
+    type: String
+  },
+  tag: {
+    type: Array
+  },
+  addr: {
+    type: String
   }
 });
-export default mongoose.model('Style',StyleSchema)
+export default mongoose.model("Style", StyleSchema);
