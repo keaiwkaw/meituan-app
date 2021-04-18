@@ -38,7 +38,7 @@ export default {
     };
   },
   computed: {
-    rate: function () {
+    rate () {
       return Number(this.meta.biz_ext.rating) || Math.floor(Math.random() * 5);
     },
   },
