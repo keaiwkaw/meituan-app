@@ -42,4 +42,23 @@ router.get("/resultsByKeywords", async ctx => {
   };
 });
 
+router.get("/products", async ctx => {
+  let { keyword = "日升昌酒店", city = "西安" } = ctx.query;
+  let res = await Style.find({ name: keyword });
+  
+  if (res) {
+    ctx.body = {
+      product: res[0],
+      more: ctx.isAuthenticated() ? res : [],
+      login: ctx.isAuthenticated()
+    };
+  } else {
+    ctx.body = {
+      product: {},
+      more: ctx.isAuthenticated() ? res : [],
+      login: ctx.isAuthenticated()
+    };
+  }
+});
+
 export default router;
